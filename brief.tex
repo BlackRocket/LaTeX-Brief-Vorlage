@@ -1,0 +1,170 @@
+%---------------------------------------------------------------------------
+%---------------------------------------------------------------------------
+% QUELLEN
+% ftp://ftp.dante.de/pub/tex/macros/latex/contrib/koma-script/scrguide.pdf
+% http://www.komascript.de/forum
+% http://golatex.de
+% http://en.wikibooks.org/wiki/LaTeX
+%---------------------------------------------------------------------------
+%---------------------------------------------------------------------------
+\documentclass%% 
+%--------------------------------------------------------------------------- 
+  [fontsize=12pt,%%          Schriftgroesse 
+%--------------------------------------------------------------------------- 
+% Satzspiegel 
+   paper=a4,%%               Papierformat 
+   %enlargefirstpage=on,%%    Erste Seite anders 
+   %pagenumber=headright,%%   Seitenzahl oben mittig   
+%--------------------------------------------------------------------------- 
+% Layout 
+   headsepline=off,%%         Linie unter der Seitenzahl 
+   parskip=half,%%           Abstand zwischen Absaetzen 
+%--------------------------------------------------------------------------- 
+% Briefkopf und Anschrift 
+   fromalign=right,%%        Plazierung des Briefkopfs 
+   fromphone=on,%%           Telefonnummer im Absender 
+   fromrule=aftername,%%     Linie im Absender (aftername, afteraddress) 
+   fromfax=off,%%            Faxnummer 
+   fromemail=off,%%          Emailadresse 
+   fromurl=off,%%            Homepage 
+   fromlogo=on,%%            Firmenlogo 
+   addrfield=on,%%           Adressfeld fuer Fensterkuverts 
+   backaddress=on,%%         ...und Absender im Fenster 
+   subject=beforeopening,%%  Plazierung der Betreffzeile 
+   locfield=wide,%%        	 zusaetzliches Feld fuer Absender 
+   foldmarks=on,%%           Faltmarken setzen 
+   numericaldate=off,%%      Datum numerisch ausgeben 
+   refline=narrow,%%         Geschaeftszeile im Satzspiegel 
+   firstfoot=on,%%           Footerbereich 
+%--------------------------------------------------------------------------- 
+% Formatierung 
+   draft=off%%                Entwurfsmodus 
+]{scrlttr2} 
+%---------------------------------------------------------------------------
+\usepackage[T1]{fontenc} 
+\usepackage{ngerman}
+\usepackage{url}  
+\usepackage[utf8]{inputenc} 
+\usepackage{eurosym}
+\RequirePackage{graphicx}
+
+%---------------------------------------------------------------------------
+% Fonts
+\setkomafont{fromname}{\scshape \LARGE} 
+\setkomafont{subject}{\mdseries} 
+\setkomafont{backaddress}{\mdseries} 
+\usepackage{newcent} 
+\RequirePackage{ubuntu} %% <<== SCHRIFT UBUNTU (muss installiert sein)
+%---------------------------------------------------------------------------
+%---------------------------------------------------------------------------
+% Briefstil und Position des Briefkopfs
+\LoadLetterOption{DIN}			 	%% oder: DINmtext, SN, SNleft, KOMAold.
+\makeatletter 
+\@setplength{firstheadvpos}{17mm} 
+\@setplength{firstfootvpos}{275mm} 	%% Abstand des Footers von oben 
+\@setplength{firstheadwidth}{\paperwidth} 
+\@setplength{locwidth}{70mm}   		%% Breite des Locationfeldes 
+\@setplength{locvpos}{15mm}    		%% Abstand des Locationfeldes von oben 
+\ifdim \useplength{toaddrhpos}>\z@ 
+  \@addtoplength[-2]{firstheadwidth}{\useplength{toaddrhpos}} 
+\else 
+  \@addtoplength[2]{firstheadwidth}{\useplength{toaddrhpos}} 
+\fi 
+\@setplength{foldmarkhpos}{6.5mm} 
+\makeatother 
+%---------------------------------------------------------------------------
+% Position des Logos
+\setkomavar{fromlogo}{\includegraphics*[width=4cm]{logo}}
+\setkomavar{location}{\\[0ex]\raggedleft{\footnotesize{
+     \usekomavar{fromlogo}
+     }}}
+     
+%--------------------------------------------------------------------------
+\firsthead{{\Large \textbf{\usekomavar{fromname}}\\}\usekomavar{fromaddress}}
+%---------------------------------------------------------------------------
+\firstfoot{% 
+{\small \rule[4pt]{\textwidth}{.4pt} \\ 
+\begin{tabular}[t]{l@{}}% 
+\usekomavar{fromname}\\ 
+\usekomavar{fromaddress}\\ 
+\end{tabular}% 
+\hfill 
+\begin{tabular}[t]{l@{}}% 
+  \usekomavar{fromphone}\\  
+    \usekomavar{fromemail}\\ 
+    \usekomavar{fromurl}\\
+\end{tabular}% 
+\ifkomavarempty{frombank}{}{% 
+\hfill 
+\begin{tabular}[t]{l@{}}% 
+\usekomavar{frombank} 
+\end{tabular}% 
+}}}
+%---------------------------------------------------------------------------
+% Anlage neu definieren 
+\renewcommand{\enclname}{Anlagen} 
+\setkomavar{enclseparator}{: } 
+
+%---------------------------------------------------------------------------
+% Weitere Optionen
+\KOMAoptions{%%
+}
+
+%---------------------------------------------------------------------------
+%***************************************************************************
+% EDIT ANFANG
+%***************************************************************************
+%---------------------------------------------------------------------------
+% Absender
+\setkomavar{fromname}{Martin Musterbrief}
+\setkomavar{fromaddress}{Musterstraße 77\\ 33777 Musterort}
+\setkomavar{fromphone}{+49\,(0)\,12\,34\,56\,789}% 
+\setkomavar{fromfax}{+49\,(0)\,98\,76\,54\,321}% 
+\setkomavar{fromemail}{martin@musterbrief.de}
+\setkomavar{fromurl}{www.musterbrief.de}
+\setkomavar{signature}{Martin Musterbrief}
+\setkomavar{frombank}{Kto. 123\,456\,789\\ BLZ 987\,654\,32\\  Musterbank} 
+%---------------------------------------------------------------------------
+% Geschaeftszeilenfelder
+\setkomavar{place}{Musterort}
+\setkomavar{placeseparator}{, den }
+\setkomavar{date}{\today}
+%\setkomavar{yourmail}{1. 1. 2003}	%% 'Ihr Schreiben...'
+%\setkomavar{yourref} {abcdefg}		%% 'Ihr Zeichen...'
+%\setkomavar{myref}{1111}			%% 'Unser Zeichen...'
+%\setkomavar{invoice}{123}			%% 'Rechnungsnummer...'
+%\setkomavar{phoneseparator}{}
+%---------------------------------------------------------------------------
+% Versendungsart
+%\setkomavar{specialmail}{Einschreiben mit Rückschein}
+%***************************************************************************
+% EDIT ENDE
+%***************************************************************************
+
+\begin{document}
+% Seitenstil
+\pagestyle{plain}  %% keine Header in der Kopfzeile
+\pagenumbering{arabic} 
+
+%***************************************************************************
+% EDIT ANFANG
+%***************************************************************************
+%---------------------------------------------------------------------------
+\begin{letter}{Musterfirma GmbH\\Kundenbetreuung\\Firmenstraße 15\\43123 Firmenstadt}
+%---------------------------------------------------------------------------
+\setkomavar{subject}{\textbf{Betreff}}
+
+\opening{Sehr geehrte Damen und Herren,}
+	Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+\closing{Mit freundlichem Gruß}
+
+%--------------------------------------------------------------------------- 
+%\ps{PS:} 						%% 'Postskriptum...'
+%\encl{Lebenslauf\\ Zeugnisse} 	%% 'Anlagen...'
+%\cc{} 							%% 'Verteiler...'
+%---------------------------------------------------------------------------
+%***************************************************************************
+% EDIT ENDE
+%***************************************************************************
+\end{letter}
+\end{document}
